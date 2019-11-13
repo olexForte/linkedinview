@@ -216,12 +216,33 @@ public class MainPage extends BasePage {
             //scrollToElement(resultOSearchItem + "[" + (i+1) + "]");
             name = findElement(By.xpath(resultOSearchItem + "[" + (i + 1) + "]")).getText();
         } catch (Exception e) {
-            LOGGER.info("Scroll up...");
-            resetScroll();
-            scrollToElement(resultOSearchItem + "[" + (i + 1) + "]");
-            name = findElement(By.xpath(resultOSearchItem + "[" + (i + 1) + "]")).getText();
+            name = "";
+        };
+
+        if(name.equals("")) {
+            try {
+                LOGGER.info("Scroll up..." + (i + 1));
+                resetScroll();
+                scrollToElement(resultOSearchItem + "[" + (i + 1) + "]");
+                name = findElement(By.xpath(resultOSearchItem + "[" + (i + 1) + "]")).getText();
+            } catch (Exception e) {
+                name = "";
+            };
         }
-        ;
+
+        if(name.equals("")) {
+            try {
+                LOGGER.info("Reload and Scroll up..." + (i + 1));
+                reloadPage();
+                scrollToElement(resultOSearchItem + "[" + (i + 1) + "]");
+                name = findElement(By.xpath(resultOSearchItem + "[" + (i + 1) + "]")).getText();
+            } catch (Exception e) {
+                LOGGER.error("Item was not found " + (i + 1));
+                takeScreenshot(driver(), Tools.getCurDateTime());
+                name = "";
+            };
+        }
+
         return name; //findElements(resultsOfSearch).get(i).findElement(nameFromResult).getText();
     }
 

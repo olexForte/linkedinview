@@ -19,7 +19,7 @@ public class LoginPage extends BasePage {
 
     private By usernameLocator = By.xpath("//input[@name='session_key']");
     private By passwordLocator = By.xpath("//input[@name='session_password']");
-    private By loginButtonLocator = By.xpath(("//button[.='Sign in']"));
+    private By loginButtonLocator = By.xpath(("//button[contains(.,'Sign in')]"));
 
 
     /**

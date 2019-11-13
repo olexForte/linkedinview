@@ -280,7 +280,7 @@ public class BasePage {
             return driver().findElement(element);
         } catch (Exception e) {
             //reporter.failWithScreenshot(ReporterManager.getStackTrace(e));
-            throw new RuntimeException("Failure finding element");
+            throw new RuntimeException("Failure finding element: " + element.toString());
         }
     }
 
@@ -305,7 +305,7 @@ public class BasePage {
             return driver().findElement(element);
         } catch (Exception e) {
             //reporter.failWithScreenshot(ReporterManager.getStackTrace(e));
-            throw new RuntimeException("Failure finding element");
+            throw new RuntimeException("Failure finding element " + element.toString());
         }
     }
 
@@ -319,7 +319,7 @@ public class BasePage {
             return driver().findElements(element);
         } catch (Exception e) {
             //reporter.failWithScreenshot(ReporterManager.getStackTrace(e));
-            throw new RuntimeException("Failure finding elements");
+            throw new RuntimeException("Failure finding elements " + element.toString());
         }
     }
 
