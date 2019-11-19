@@ -72,7 +72,6 @@ public class BaseLinkedIn implements Runnable{
                         .waitForPageToLoadAndSpinnerToDisappear();
             }
 
-
             MainPage mainPage = new MainPage();
             mainPage.openUserConnections();
 
@@ -114,7 +113,6 @@ public class BaseLinkedIn implements Runnable{
 
 //                    try {
 //
-
                         String parentTitleAndCompany = mainPage.getTitleAndCompanyFromContactPage();
                         String parentTitle = parentTitleAndCompany.split(mainPage.TITLE_SEPARATOR)[0].replace("Title", "");
                         String parentCompany = parentTitleAndCompany.split(mainPage.TITLE_SEPARATOR)[1].replace("Company Name", "");
@@ -180,19 +178,17 @@ public class BaseLinkedIn implements Runnable{
                                         FileIO.appendToFile(reportFile, "<td> " + company + "</td>");
                                         FileIO.appendToFile(reportFile, "<td> " + allContactsInfo + "</td>");
                                         FileIO.appendToFile(reportFile, "</tr>");
-                                    }
-                                    ;
+                                    };
                                     hasSecondaryNext = mainPage.isNextPageOfResultsAvailable();
                                     if (hasSecondaryNext)
                                         mainPage.clickOnNextResultLink();
-                                }
-                                ;
-
-                            }
-                            ;
+                                };
+                            };
 
                         } else { // no connections opened
-                            mainPage.goBack();
+
+                            //mainPage.goBack();
+                            mainPage.closeTab();
                             FileIO.appendToFile(reportFile, "<tr>");
                             FileIO.appendToFile(reportFile, "<td> " + parentName + "</td>");
                             FileIO.appendToFile(reportFile, "<td> " + parentTitle + " </td> ");
@@ -201,8 +197,7 @@ public class BaseLinkedIn implements Runnable{
                             FileIO.appendToFile(reportFile, "<td> " + parentPhone + " </td>");
                             FileIO.appendToFile(reportFile, "<td> No open connections </td>");
                             FileIO.appendToFile(reportFile, "</tr>");
-                        }
-                        ;
+                        };
 
                         FileIO.appendToFile(sessionFile, parentName); // add name to session
                         if (!contactToSearch.equals("")) {

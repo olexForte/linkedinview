@@ -43,8 +43,8 @@ public class SimpleUI implements ActionListener {
     String prevhtml = PropertiesList.getConfigProperty("PREV_HTML");
     String prevtxt  = PropertiesList.getConfigProperty("PREV_TXT");
 
-    JTextField login = new JTextField(loginFromConfig);
-    JPasswordField password = new JPasswordField(passwordFromConfig);
+    JTextField login = new JTextField(loginFromConfig,30);
+    JPasswordField password = new JPasswordField(passwordFromConfig, 20);
 
     JTextField title1 = new JTextField(titleFromConfig1);
     JTextField title2 = new JTextField(titleFromConfig2);
