@@ -38,7 +38,7 @@ public class SimpleUI implements ActionListener {
     String titleFromConfig1= PropertiesList.getConfigProperty("TITLE1");
     String contactsFromConfig= PropertiesList.getConfigProperty("CONTACTS");
     String companiesFromConfig1= PropertiesList.getConfigProperty("COMPANIES1");
-    String titleFromConfig2= PropertiesList.getConfigProperty("TITLE1");
+    String titleFromConfig2= PropertiesList.getConfigProperty("TITLE2");
 
     String prevhtml = PropertiesList.getConfigProperty("PREV_HTML");
     String prevtxt  = PropertiesList.getConfigProperty("PREV_TXT");
@@ -264,7 +264,7 @@ public class SimpleUI implements ActionListener {
 
             mainPanel.setEnabled(false);
 
-            String reportFile = Tools.getCurDateTime() + ".html";
+            String reportFile = Tools.getCurDateTime() + ".csv"; // ".html";
             String sessionFile = Tools.getCurDateTime() + ".txt";
 
             previousHTMLreport.setText(reportFile);

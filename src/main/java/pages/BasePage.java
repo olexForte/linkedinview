@@ -370,6 +370,7 @@ public class BasePage {
     }
 
     public void resetScroll(){
+        LOGGER.info("Reset scroll");
         waitForPageToLoad();
         ((JavascriptExecutor) driver()).executeScript("window.scrollY=0");
     }

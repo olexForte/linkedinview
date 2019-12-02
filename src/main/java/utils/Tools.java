@@ -199,4 +199,13 @@ public class Tools {
 
         return result;
     }
+
+    /**
+     * clear vlue for usage in CSVfile
+     * @param value
+     * @return
+     */
+    public static String cleanForCell(String value) {
+        return value.replaceAll("[\\n,\",]", " ");
+    }
 }

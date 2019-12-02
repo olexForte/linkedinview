@@ -67,9 +67,11 @@ public class MainPage extends BasePage {
     By noResultsFoundMessage = By.xpath(("//h1[.='No results found.']"));
 
     public MainPage openUserConnections() {
+        LOGGER.info("User Connections opening");
         findElement(connectionsLink).click();
         waitForElement(connectionsSecondLink);
         findElement(connectionsSecondLink).click();
+        LOGGER.info("User Connections opened");
         return this;
     }
 
@@ -80,6 +82,7 @@ public class MainPage extends BasePage {
 
 
     public String getTitleAndCompanyFromContactPage() {
+        LOGGER.info("Getting title and company");
 
         sleepFor(1000);
         try {
@@ -115,12 +118,15 @@ public class MainPage extends BasePage {
             e.printStackTrace();
         }
 
+        LOGGER.info("Finished getting title and company: "+ position + TITLE_SEPARATOR + company);
         return position + TITLE_SEPARATOR + company;
     }
 
     private void scrollToExperience() {
+        LOGGER.info("Scroll to experience");
         while (!userIsOnTheBottomOfDocument())
             if (findElements(By.xpath("//h2[contains(.,'Experience')]")).size() > 0) {
+                LOGGER.info("Experience container was not found");
                 break;
             } else
                 scrollUsingJS(200);
@@ -128,16 +134,20 @@ public class MainPage extends BasePage {
     }
 
     public MainPage openFilters() {
+        LOGGER.info("Open filters");
         waitForElement(searchWithFilters);
         clickOnElementUsingJS(findElement(searchWithFilters));
         waitForElement(allFiltersLink);
         clickOnElementUsingJS(findElement(allFiltersLink));
+        LOGGER.info("Filters opened");
         return this;
     }
 
     public MainPage openCurrentFilter() {
+        LOGGER.info("Open current filters");
         waitForElement(allFiltersLink);
         clickOnElementUsingJS(findElement(allFiltersLink));
+        LOGGER.info("Filters opened");
         return this;
     }
 
@@ -179,10 +189,14 @@ public class MainPage extends BasePage {
     public boolean isNextPageOfResultsAvailable() {
         waitForPageToLoad();
         scrollToEndOfResults();
+        boolean result = false;
         if (findElements(nextPageLink).size() > 0)
-            return findElement(nextPageLink).isEnabled();
+            result = findElement(nextPageLink).isEnabled();
         else
-            return false;
+            setDriverContextToPage(driver());
+            if (findElements(nextPageLink).size() > 0)
+                result = findElement(nextPageLink).isEnabled();
+        return result;
     }
 
     private void scrollToEndOfResults() {
@@ -274,6 +288,7 @@ public class MainPage extends BasePage {
     }
 
     public MainPage setCurrentCompanies(String listOfCompanies) {
+        LOGGER.info("Set current companies");
         if(!listOfCompanies.trim().equals("")) {
             for (String companyName : listOfCompanies.trim().split(";")) {
                 try {
@@ -295,6 +310,7 @@ public class MainPage extends BasePage {
                 }
             }
         }
+        LOGGER.info("Companies selected");
         return this;
     }
 

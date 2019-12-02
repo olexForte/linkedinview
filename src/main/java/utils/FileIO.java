@@ -139,11 +139,21 @@ public class FileIO {
         FileUtils.writeStringToFile(new File(dataFile), data, Charset.defaultCharset());
     }
 
-    public static void appendToFile(String dataFile, String data) throws IOException {
+    public static void appendLineToFile(String dataFile, String data) throws IOException {
         File file = new File(dataFile);
         FileWriter fr = new FileWriter(file, true);
         BufferedWriter br = new BufferedWriter(fr);
         br.write(data + "\n");
+
+        br.close();
+        fr.close();
+    }
+
+    public static void appendToFile(String dataFile, String data) throws IOException {
+        File file = new File(dataFile);
+        FileWriter fr = new FileWriter(file, true);
+        BufferedWriter br = new BufferedWriter(fr);
+        br.write(data);
 
         br.close();
         fr.close();
@@ -232,6 +242,53 @@ public class FileIO {
         }
 
         return false;
+    }
+
+    public static void appendToResults(
+            String reportFileBase,
+            String parentName,
+            String parentTitle,
+            String parentCompany,
+            String parentEmail,
+            String parentPhone,
+            String name,
+            String title,
+            String company,
+            String allContactsInfo) throws IOException {
+
+        String reportFile = reportFileBase + ".html";
+
+        FileIO.appendToFile(reportFile, "<tr>");
+        FileIO.appendToFile(reportFile, "<td> " + parentName + "</td>");
+        FileIO.appendToFile(reportFile, "<td> " + parentTitle + " </td> ");
+        FileIO.appendToFile(reportFile, "<td> " + parentCompany + " </td> ");
+        FileIO.appendToFile(reportFile, "<td> " + parentEmail + " </td>");
+        FileIO.appendToFile(reportFile, "<td> " + parentPhone + " </td>");
+        FileIO.appendToFile(reportFile, "<td> " + name + "</td>");
+        FileIO.appendToFile(reportFile, "<td> " + title + "</td>");
+        FileIO.appendToFile(reportFile, "<td> " + company + "</td>");
+        FileIO.appendToFile(reportFile, "<td> " + allContactsInfo + "</td>");
+        FileIO.appendToFile(reportFile, "</tr>\n");
+
+        FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(parentName) + ", ");
+        FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(parentTitle) + " , ");
+        FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(parentCompany) + " , ");
+        FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(parentEmail) + " ,");
+        FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(parentPhone) + " ,");
+        FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(name) + ",");
+        FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(title) + ",");
+        FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(company) + ",");
+        FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(allContactsInfo) + "\n");
+
+    }
+
+    public static void closeResultsFile(String reportFile) throws IOException {
+        FileIO.appendToFile(reportFile + ".html", "</table>");
+    }
+
+    public static void openReportFile(String reportFile) throws IOException {
+        FileIO.appendToFile(reportFile+ ".html", "<table>");
+        FileIO.appendToResults(reportFile,"1st Connection Name","1st Connection Title", "1st Connection Company", "1st Connection Email","1st Connection Phone","2nd Connection Name","2nd Connection Title","2nd Connection Company","2nd Connection Links");
     }
 }
 

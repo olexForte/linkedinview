@@ -55,7 +55,8 @@ public class BaseLinkedIn implements Runnable{
 
         boolean result = false;
 
-        FileIO.appendToFile(reportFile, "<table>");
+        FileIO.openReportFile(reportFile);
+//        FileIO.appendToFile(reportFile, "<table>");
 
         try {
             //driver.set(DriverProvider.getDriver());
@@ -133,17 +134,12 @@ public class BaseLinkedIn implements Runnable{
                                     applyFilter();
 
                             if (mainPage.wasNoResultsFound()) {
-                                LOGGER.warn("No results found for");
-                                mainPage.goBack();
-                                FileIO.appendToFile(reportFile, "<tr>");
-                                FileIO.appendToFile(reportFile, "<td> " + parentName + "</td>");
-                                FileIO.appendToFile(reportFile, "<td> " + parentTitle + " </td> ");
-                                FileIO.appendToFile(reportFile, "<td> " + parentCompany + " </td> ");
-                                FileIO.appendToFile(reportFile, "<td> " + parentEmail + " </td>");
-                                FileIO.appendToFile(reportFile, "<td> " + parentPhone + " </td>");
-                                FileIO.appendToFile(reportFile, "<td> No results found </td>");
-                                FileIO.appendToFile(reportFile, "</tr>");
-                            } else {
+                                LOGGER.warn("No results found");
+                                //mainPage.goBack();
+                                mainPage.closeTab();
+                                FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, "No results found", "", "", "");
+
+                            } else { // some secondary results were found
                                 boolean hasSecondaryNext = true;
                                 while (hasSecondaryNext) {
                                     int numberOfItemsOnCurrentResultsPageForContact = mainPage.getNumberOfResultsFromCurrentPage();
@@ -167,21 +163,14 @@ public class BaseLinkedIn implements Runnable{
 
                                         mainPage.goBack(); //go back to secondary search
                                         mainPage.waitForPageToLoad();
-                                        FileIO.appendToFile(reportFile, "<tr>");
-                                        FileIO.appendToFile(reportFile, "<td> " + parentName + "</td>");
-                                        FileIO.appendToFile(reportFile, "<td> " + parentTitle + " </td> ");
-                                        FileIO.appendToFile(reportFile, "<td> " + parentCompany + " </td> ");
-                                        FileIO.appendToFile(reportFile, "<td> " + parentEmail + " </td>");
-                                        FileIO.appendToFile(reportFile, "<td> " + parentPhone + " </td>");
-                                        FileIO.appendToFile(reportFile, "<td> " + name + "</td>");
-                                        FileIO.appendToFile(reportFile, "<td> " + title + "</td>");
-                                        FileIO.appendToFile(reportFile, "<td> " + company + "</td>");
-                                        FileIO.appendToFile(reportFile, "<td> " + allContactsInfo + "</td>");
-                                        FileIO.appendToFile(reportFile, "</tr>");
+                                        FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, name, title, company, allContactsInfo);
+
                                     };
                                     hasSecondaryNext = mainPage.isNextPageOfResultsAvailable();
                                     if (hasSecondaryNext)
                                         mainPage.clickOnNextResultLink();
+                                    else
+                                        mainPage.closeTab();
                                 };
                             };
 
@@ -189,17 +178,18 @@ public class BaseLinkedIn implements Runnable{
 
                             //mainPage.goBack();
                             mainPage.closeTab();
-                            FileIO.appendToFile(reportFile, "<tr>");
-                            FileIO.appendToFile(reportFile, "<td> " + parentName + "</td>");
-                            FileIO.appendToFile(reportFile, "<td> " + parentTitle + " </td> ");
-                            FileIO.appendToFile(reportFile, "<td> " + parentCompany + " </td> ");
-                            FileIO.appendToFile(reportFile, "<td> " + parentEmail + " </td>");
-                            FileIO.appendToFile(reportFile, "<td> " + parentPhone + " </td>");
-                            FileIO.appendToFile(reportFile, "<td> No open connections </td>");
-                            FileIO.appendToFile(reportFile, "</tr>");
+                            FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, "No open connections", "", "", "");
+//                            FileIO.appendToFile(reportFile, "<tr>");
+//                            FileIO.appendToFile(reportFile, "<td> " + parentName + "</td>");
+//                            FileIO.appendToFile(reportFile, "<td> " + parentTitle + " </td> ");
+//                            FileIO.appendToFile(reportFile, "<td> " + parentCompany + " </td> ");
+//                            FileIO.appendToFile(reportFile, "<td> " + parentEmail + " </td>");
+//                            FileIO.appendToFile(reportFile, "<td> " + parentPhone + " </td>");
+//                            FileIO.appendToFile(reportFile, "<td> No open connections </td>");
+//                            FileIO.appendToFile(reportFile, "</tr>");
                         };
 
-                        FileIO.appendToFile(sessionFile, parentName); // add name to session
+                        FileIO.appendLineToFile(sessionFile, parentName); // add name to session
                         if (!contactToSearch.equals("")) {
                             String sessionContent = FileIO.getFileContent(sessionFile);
                             boolean found = true;
@@ -212,8 +202,8 @@ public class BaseLinkedIn implements Runnable{
 //                        };
                                 if (found) {
                                     LOGGER.info("All required contactToSearch were found");
-
-                                    FileIO.appendToFile(reportFile, "</table>");
+                                    FileIO.closeResultsFile(reportFile);
+                                    //FileIO.appendToFile(reportFile, "</table>");
                                     //close driver
                                     DriverProvider.closeDriver();
                                     driver().quit();
@@ -232,7 +222,8 @@ public class BaseLinkedIn implements Runnable{
                     mainPage.clickOnNextResultLink();
             }
             result = true;
-            FileIO.appendToFile(reportFile, "</table>");
+            FileIO.closeResultsFile(reportFile);
+            //FileIO.appendToFile(reportFile, "</table>");
             //close driver
             BasePage.takeScreenshot(driver(), Tools.getCurDateTime());
             DriverProvider.closeDriver();
@@ -240,7 +231,8 @@ public class BaseLinkedIn implements Runnable{
             terminate();
         } catch (Exception e){
             LOGGER.error(e.getMessage() + "\n"  );
-            FileIO.appendToFile(reportFile, "</table>");
+            FileIO.closeResultsFile(reportFile);
+            //FileIO.appendToFile(reportFile, "</table>");
             //close driver
             BasePage.takeScreenshot(driver(), Tools.getCurDateTime());
             //DriverProvider.closeDriver();
