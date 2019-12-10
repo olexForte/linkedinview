@@ -40,7 +40,7 @@ public class LoginPage extends BasePage {
      * @return      instance of LoginPage
      */
     public LoginPage enterPassword(String pass) {
-        LOGGER.info("Entering password: " + pass);
+        LOGGER.info("Entering password");
         findElement(passwordLocator).clear();
         findElement(passwordLocator).sendKeys(pass);
         return this;
