@@ -273,6 +273,16 @@ public class BasePage {
     public WebElement findElement(By element, int... timeout) {
         int timeoutForFindElement = timeout.length < 1 ? MAIN_TIMEOUT : timeout[0];
         //waitForPageToLoad();
+
+        try {
+            //synchronize();
+            (new WebDriverWait(driver(), timeoutForFindElement))
+                    .until(ExpectedConditions.visibilityOfElementLocated(element));
+            return driver().findElement(element);
+        } catch (Exception e) {
+            reactivateBrowser();
+        }
+
         try {
             //synchronize();
 //            (new WebDriverWait(driver(), timeoutForFindElement))
@@ -778,5 +788,12 @@ public class BasePage {
             return "";
         }
         return filename;
+    }
+
+    public void reactivateBrowser(){
+        String window = driver().getWindowHandle();
+        ((JavascriptExecutor) driver()).executeScript("alert('Go back')");
+        driver().switchTo().alert().accept();
+        driver().switchTo().window(window);
     }
 }

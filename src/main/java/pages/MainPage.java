@@ -136,9 +136,9 @@ public class MainPage extends BasePage {
     public MainPage openFilters() {
         LOGGER.info("Open filters");
         waitForElement(searchWithFilters);
-        clickOnElementUsingJS(findElement(searchWithFilters));
+        findElement(searchWithFilters).click();
         waitForElement(allFiltersLink);
-        clickOnElementUsingJS(findElement(allFiltersLink));
+        findElement(allFiltersLink).click();
         LOGGER.info("Filters opened");
         return this;
     }
@@ -200,6 +200,7 @@ public class MainPage extends BasePage {
     }
 
     private void scrollToEndOfResults() {
+        reactivateBrowser();
         while (!userIsOnTheBottomOfDocument())
             scrollUsingJS(2000);
     }
@@ -274,6 +275,7 @@ public class MainPage extends BasePage {
 
     public void openItemInResults(int i) {
         //clickOnElementUsingJS(findElements(resultsOfSearch).get(i).findElement(nameFromResult));
+        reactivateBrowser();
         cntrlClickOnElement(findElement(By.xpath(resultOSearchItem + "[" + (i + 1) + "]")));
         openNextTab();
         waitForPageToLoad();
