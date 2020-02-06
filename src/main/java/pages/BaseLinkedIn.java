@@ -18,7 +18,7 @@ import static pages.BasePage.driver;
 public class BaseLinkedIn implements Runnable{
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(BaseLinkedIn.class);
-    private static final int MAX_NUMBER_OF_FAILURES = 10;
+    private static final int MAX_NUMBER_OF_FAILURES = 1;
     int numberOfFailures = 0;
 
     public volatile boolean running = true;
@@ -89,6 +89,9 @@ public class BaseLinkedIn implements Runnable{
 
             if (mainPage.wasNoResultsFound())
                 throw new Exception("No results found");
+            if (!mainPage.wasResultsFound())
+                throw new Exception("No result items found");
+
 
             boolean hasNext = true;
             while (hasNext) {
@@ -133,7 +136,7 @@ public class BaseLinkedIn implements Runnable{
                                     setCurrentCompanies(listOfCompanies).
                                     applyFilter();
 
-                            if (mainPage.wasNoResultsFound()) {
+                            if (mainPage.wasNoResultsFound() || !mainPage.wasResultsFound()) {
                                 LOGGER.warn("No results found");
                                 //mainPage.goBack();
                                 mainPage.closeTab();
@@ -254,7 +257,7 @@ public class BaseLinkedIn implements Runnable{
             } catch (Exception e) {
                 e.printStackTrace();
                 numberOfFailures++;
-                if(numberOfFailures > MAX_NUMBER_OF_FAILURES){
+                if(numberOfFailures >= MAX_NUMBER_OF_FAILURES){
                     LOGGER.error("Too many failures during execution");
                     terminate();
                 }

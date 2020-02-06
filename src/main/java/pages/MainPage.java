@@ -349,6 +349,10 @@ public class MainPage extends BasePage {
         return findElements(noResultsFoundMessage).size() > 0;
     }
 
+    public boolean wasResultsFound(){
+        return findElements(By.xpath(resultOSearchItem)).size() > 0;
+    }
+
     public String getCurrentContactDetails() {
         try {
             waitForElement(By.xpath("//h2[.='Contact Info']/following::div[1]"));

@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.TimerTask;
 import java.util.Timer;
 
@@ -22,7 +23,7 @@ public class SimpleUI implements ActionListener {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SimpleUI.class);
 
-    String LOG_FILE_LOCATION = "log.txt";
+    static String LOG_FILE_LOCATION = "log.txt";
 
     BaseLinkedIn linkedIn;
 
@@ -243,6 +244,11 @@ public class SimpleUI implements ActionListener {
                             driver.quit();
                         }catch (Exception e){
                             //may not be started
+                            try {
+                                FileIO.appendLineToFile(LOG_FILE_LOCATION, "ERROR: " +  e.getMessage());
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
                         }
                         terminate();
                     }
