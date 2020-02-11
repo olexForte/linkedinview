@@ -187,8 +187,11 @@ public class BasePage {
 
     public boolean isElementDisplayedRightNow(By by) {
         try {
-            return driver().findElements(by).size() > 0;
+            boolean result = driver().findElements(by).size() > 0;
+            LOGGER.debug("Elements were found " + by.toString());
+            return result;
         } catch (Exception e) {
+            LOGGER.debug("Elements were NOT found " + by.toString());
             return false;
         }
     }
@@ -218,11 +221,13 @@ public class BasePage {
         int timeoutForFindElement = timeout.length < 1 ? MAIN_TIMEOUT : timeout[0];
         waitForPageToLoad();
         try {
+            LOGGER.debug("findElementIgnoreException " + element.toString());
             //synchronize();
             (new WebDriverWait(driver(), timeoutForFindElement))
                     .until(ExpectedConditions.visibilityOfElementLocated(element));
             return driver().findElement(element);
         } catch (Exception e) {
+            LOGGER.debug("EfindElementIgnoreException element NOT found " + element.toString());
             return null;
         }
     }
@@ -256,9 +261,11 @@ public class BasePage {
         for (int i = 0 ; i < MAIN_TIMEOUT; i++ ) {
            try{
                driver().findElement(element).click();
+               LOGGER.debug("clickOnElement " + element.toString());
                return;
         } catch (Exception e){
             if(i == MAIN_TIMEOUT) {
+                LOGGER.debug("clickOnElement FAILED: " + element.toString());
                 //reporter.failWithScreenshot(ReporterManager.getStackTrace(e));
                 throw new RuntimeException("Failure clicking on element: " + e.getMessage() );
             }
@@ -276,10 +283,12 @@ public class BasePage {
 
         try {
             //synchronize();
+            LOGGER.debug("findElement: " + element.toString());
             (new WebDriverWait(driver(), timeoutForFindElement))
                     .until(ExpectedConditions.visibilityOfElementLocated(element));
             return driver().findElement(element);
         } catch (Exception e) {
+            LOGGER.debug("findElement FAILED: " + element.toString());
             reactivateBrowser();
         }
 
@@ -290,12 +299,14 @@ public class BasePage {
             return driver().findElement(element);
         } catch (Exception e) {
             //reporter.failWithScreenshot(ReporterManager.getStackTrace(e));
+            LOGGER.debug("findElement FAILED AGAIN: " + element.toString());
             throw new RuntimeException("Failure finding element: " + element.toString());
         }
     }
 
 
     public void cntrlClickOnElement(WebElement element) {
+        LOGGER.debug("cntrlClickOnElement: " + element.toString());
         Actions actions = new Actions(driver());
         Keys keyToHold = (System.getProperty("os.name").toLowerCase().contains("win")) ?  Keys.LEFT_CONTROL : Keys.COMMAND;
         actions.keyDown(keyToHold)
@@ -303,6 +314,7 @@ public class BasePage {
                 .keyUp(keyToHold)
                 .build()
                 .perform();
+        LOGGER.debug("cntrlClickOnElement Done: " + element.toString());
     }
 
     public WebElement findElementPresent(By element, int... timeout) {
@@ -326,9 +338,11 @@ public class BasePage {
             //synchronize();
 //            (new WebDriverWait(driver(), timeoutForFindElement))
 //                    .until(ExpectedConditions.presenceOfElementLocated(element));
+            LOGGER.debug("findElements: " + element.toString());
             return driver().findElements(element);
         } catch (Exception e) {
             //reporter.failWithScreenshot(ReporterManager.getStackTrace(e));
+            LOGGER.debug("findElements FAILED: " + element.toString());
             throw new RuntimeException("Failure finding elements " + element.toString());
         }
     }
@@ -348,11 +362,13 @@ public class BasePage {
         waitForPageToLoad();
         try {
             //synchronize();
+            LOGGER.debug("getAttributeID: " + element.toString());
             (new WebDriverWait(driver(), timeoutForFindElement))
                     .until(ExpectedConditions.visibilityOfElementLocated(element));
             String id = findElement(element).getAttribute("id");
             return id;
         } catch (Exception e) {
+            LOGGER.debug("getAttributeID FAILED: " + element.toString());
             throw new RuntimeException("Failure getting attribute id of an element");
         }
     }

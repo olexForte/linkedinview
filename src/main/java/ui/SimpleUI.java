@@ -21,6 +21,8 @@ import java.util.Timer;
  */
 public class SimpleUI implements ActionListener {
 
+    String VERSION_LABEL = "(2020/02/11)";
+
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SimpleUI.class);
 
     static String LOG_FILE_LOCATION = "log.txt";
@@ -86,7 +88,7 @@ public class SimpleUI implements ActionListener {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
         //Create and set up the window.
-        JFrame frame = new JFrame("LinkedIn Viewer");
+        JFrame frame = new JFrame("LinkedIn Viewer " + VERSION_LABEL);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
         //frame.setSize(1200,1000);
