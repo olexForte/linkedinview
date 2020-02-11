@@ -807,9 +807,11 @@ public class BasePage {
     }
 
     public void reactivateBrowser(){
+        LOGGER.info("Reactivate browser");
         String window = driver().getWindowHandle();
         ((JavascriptExecutor) driver()).executeScript("alert('Go back')");
         driver().switchTo().alert().accept();
         driver().switchTo().window(window);
+        waitForPageToLoad();
     }
 }

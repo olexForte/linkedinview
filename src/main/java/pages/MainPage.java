@@ -190,12 +190,21 @@ public class MainPage extends BasePage {
         waitForPageToLoad();
         scrollToEndOfResults();
         boolean result = false;
-        if (findElements(nextPageLink).size() > 0)
+        LOGGER.info("Check Next link availability");
+        if (findElements(nextPageLink).size() > 0) {
+            LOGGER.info("Next link was found");
             result = findElement(nextPageLink).isEnabled();
-        else
+        }else {
+            LOGGER.info("Next link was not found");
+            reactivateBrowser();
             setDriverContextToPage(driver());
-            if (findElements(nextPageLink).size() > 0)
+            if (findElements(nextPageLink).size() > 0){
+                LOGGER.info("Next link was found");
                 result = findElement(nextPageLink).isEnabled();
+            }
+
+        }
+        LOGGER.info("Next link was found? " + result);
         return result;
     }
 
