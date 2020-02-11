@@ -290,5 +290,9 @@ public class FileIO {
         FileIO.appendToFile(reportFile+ ".html", "<table>");
         FileIO.appendToResults(reportFile,"1st Connection Name","1st Connection Title", "1st Connection Company", "1st Connection Email","1st Connection Phone","2nd Connection Name","2nd Connection Title","2nd Connection Company","2nd Connection Links");
     }
+
+    public static void copyFile(String fileName1, String fileName2) throws IOException {
+        FileUtils.copyFile(new File(fileName1), new File(fileName2));
+    }
 }
 

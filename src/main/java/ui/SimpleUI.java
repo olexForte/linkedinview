@@ -24,6 +24,7 @@ public class SimpleUI implements ActionListener {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SimpleUI.class);
 
     static String LOG_FILE_LOCATION = "log.txt";
+    static String CURRENT_LOG_FILE_LOCATION = "log" + Tools.getCurDateTime() + ".txt";
 
     BaseLinkedIn linkedIn;
 
@@ -311,6 +312,11 @@ public class SimpleUI implements ActionListener {
     }
 
     private void stopApp(){
+        try {
+            FileIO.copyFile(LOG_FILE_LOCATION, CURRENT_LOG_FILE_LOCATION);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         LOGGER.info("Application stopped");
         if(linkedIn != null) {
             linkedIn.terminate();
