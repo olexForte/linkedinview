@@ -104,7 +104,7 @@ public class BaseLinkedIn implements Runnable{
                     LOGGER.info("1st: " + parentName);
 
                     if( FileIO.substringWasFoundInFile(sessionFile, parentName)) {
-                        LOGGER.info("Skipped (already processed) " + parentName);
+                        LOGGER.info("Skipped (already processed first level contact) " + parentName);
                         continue;
                     };
 
@@ -152,22 +152,29 @@ public class BaseLinkedIn implements Runnable{
                                         mainPage.scrollToItemInResults(j);
                                         String name = mainPage.getNameFromResults(j);
                                         LOGGER.info(name);
-                                        mainPage.clickOnItemInResults(j);
-                                        String titleAndCompany = mainPage.getTitleAndCompanyFromContactPage();
 
-                                        mainPage.openContactsPanel();
-                                        String allContactsInfo = mainPage.getCurrentContactDetails();
-                                        mainPage.goBack();
+                                        if( FileIO.substringWasFoundInFile(sessionFile, name)) {
+                                            LOGGER.info("Skipped (already processed second level contact) " + name);
+                                        } else {
 
-                                        String title = titleAndCompany.split(mainPage.TITLE_SEPARATOR)[0].replace("Title", "");
-                                        String company = titleAndCompany.split(mainPage.TITLE_SEPARATOR)[1].replace("Company Name", "");
+                                            mainPage.clickOnItemInResults(j);
+                                            String titleAndCompany = mainPage.getTitleAndCompanyFromContactPage();
 
-                                        LOGGER.info(" - " + title);
+                                            mainPage.openContactsPanel();
+                                            String allContactsInfo = mainPage.getCurrentContactDetails();
+                                            mainPage.goBack();
 
-                                        mainPage.goBack(); //go back to secondary search
-                                        mainPage.waitForPageToLoad();
-                                        FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, name, title, company, allContactsInfo);
+                                            String title = titleAndCompany.split(mainPage.TITLE_SEPARATOR)[0].replace("Title", "");
+                                            String company = titleAndCompany.split(mainPage.TITLE_SEPARATOR)[1].replace("Company Name", "");
 
+                                            LOGGER.info(" - " + title);
+
+                                            mainPage.goBack(); //go back to secondary search
+                                            mainPage.waitForPageToLoad();
+
+                                            FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, name, title, company, allContactsInfo);
+                                            FileIO.appendLineToFile(sessionFile, name);
+                                        };
                                     };
                                     hasSecondaryNext = mainPage.isNextPageOfResultsAvailable();
                                     if (hasSecondaryNext)
@@ -205,6 +212,7 @@ public class BaseLinkedIn implements Runnable{
 //                        };
                                 if (found) {
                                     LOGGER.info("All required contactToSearch were found");
+                                    BasePage.takeScreenshot(driver(), Tools.getCurDateTime());
                                     FileIO.closeResultsFile(reportFile);
                                     //FileIO.appendToFile(reportFile, "</table>");
                                     //close driver

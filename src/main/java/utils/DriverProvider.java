@@ -80,7 +80,7 @@ public class DriverProvider {
             chromePrefs.put("plugins.always_open_pdf_externally", true);
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("prefs", chromePrefs);
-            //options.addArguments("--window-size=1184,784");
+            options.addArguments("--window-size=1920,1080");
             options.addArguments("--start-maximized");
             //options.addArguments("--kiosk");
 
