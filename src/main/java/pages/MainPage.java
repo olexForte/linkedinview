@@ -215,6 +215,8 @@ public class MainPage extends BasePage {
     }
 
     public int getNumberOfResultsFromCurrentPage() {
+        if (findElements(resultsOfSearch).size() == 0)
+            sleepFor(5000);
         return findElements(resultsOfSearch).size();
     }
 

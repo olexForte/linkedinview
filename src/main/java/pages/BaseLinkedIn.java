@@ -96,6 +96,7 @@ public class BaseLinkedIn implements Runnable{
             boolean hasNext = true;
             while (hasNext) {
                 int numberOfItemsOnCurrentResultsPage = mainPage.getNumberOfResultsFromCurrentPage();
+                LOGGER.info("Primary results on current page: " + numberOfItemsOnCurrentResultsPage);
                 for (int i = 0; i < numberOfItemsOnCurrentResultsPage; i++) {
                     LOGGER.info("Contact " + i);
                     //mainPage.scrollUsingJS(1000);
@@ -112,7 +113,7 @@ public class BaseLinkedIn implements Runnable{
 //                        LOGGER.info("Skipped (not in list of expected contactToSearch) " + parentName);
 //                        continue;
 //                    };
-
+                    LOGGER.info("Click on Primary: " + parentName);
                     mainPage.openItemInResults(i);   // new tab opened
 
 //                    try {
@@ -121,14 +122,17 @@ public class BaseLinkedIn implements Runnable{
                         String parentTitle = parentTitleAndCompany.split(mainPage.TITLE_SEPARATOR)[0].replace("Title", "");
                         String parentCompany = parentTitleAndCompany.split(mainPage.TITLE_SEPARATOR)[1].replace("Company Name", "");
 
+                        LOGGER.info("Open contact info");
                         mainPage.openContactsPanel();
                         String parentEmail = mainPage.getCurrentContactEmail();
                         String parentPhone = mainPage.getCurrentContactPhone();
+
                         mainPage.goBack();
 
                         LOGGER.info(parentTitleAndCompany + " - " + parentEmail);
 
                         if (mainPage.isConnectionsOpenForContact()) {
+                            LOGGER.info("Connections are opened");
                             mainPage.openConnections().
                                     openCurrentFilter().
                                     setSearchForSecondLevel().
@@ -143,9 +147,11 @@ public class BaseLinkedIn implements Runnable{
                                 FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, "No results found", "", "", "");
 
                             } else { // some secondary results were found
+                                LOGGER.info("Secondary results were found");
                                 boolean hasSecondaryNext = true;
                                 while (hasSecondaryNext) {
                                     int numberOfItemsOnCurrentResultsPageForContact = mainPage.getNumberOfResultsFromCurrentPage();
+                                    LOGGER.info("Secondary results on current page: " + numberOfItemsOnCurrentResultsPage);
                                     for (int j = 0; j < numberOfItemsOnCurrentResultsPageForContact; j++) {
                                         LOGGER.info("2nd Contact " + j);
                                         mainPage.sleepFor(2000);
@@ -156,12 +162,15 @@ public class BaseLinkedIn implements Runnable{
                                         if( FileIO.substringWasFoundInFile(sessionFile, name)) {
                                             LOGGER.info("Skipped (already processed second level contact) " + name);
                                         } else {
-
+                                            LOGGER.info("Click on Secondary: " + name);
                                             mainPage.clickOnItemInResults(j);
                                             String titleAndCompany = mainPage.getTitleAndCompanyFromContactPage();
 
+                                            LOGGER.info("Open contacts panel");
                                             mainPage.openContactsPanel();
                                             String allContactsInfo = mainPage.getCurrentContactDetails();
+                                            LOGGER.info("Found contact info: " + allContactsInfo);
+
                                             mainPage.goBack();
 
                                             String title = titleAndCompany.split(mainPage.TITLE_SEPARATOR)[0].replace("Title", "");
@@ -177,16 +186,20 @@ public class BaseLinkedIn implements Runnable{
                                         };
                                     };
                                     hasSecondaryNext = mainPage.isNextPageOfResultsAvailable();
-                                    if (hasSecondaryNext)
+                                    if (hasSecondaryNext) {
+                                        LOGGER.info("Click Next link on Secondary search results");
                                         mainPage.clickOnNextResultLink();
-                                    else
+                                    }else {
+                                        LOGGER.info("No Next link");
                                         mainPage.closeTab();
+                                    }
                                 };
                             };
 
                         } else { // no connections opened
 
                             //mainPage.goBack();
+                            LOGGER.info("No opened connections");
                             mainPage.closeTab();
                             FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, "No open connections", "", "", "");
 //                            FileIO.appendToFile(reportFile, "<tr>");
@@ -229,8 +242,10 @@ public class BaseLinkedIn implements Runnable{
 //                    }
                 };
                 hasNext = mainPage.isNextPageOfResultsAvailable();
-                if (hasNext)
+                if (hasNext) {
+                    LOGGER.info("Click Next on Primary test results");
                     mainPage.clickOnNextResultLink();
+                }
             }
             result = true;
             FileIO.closeResultsFile(reportFile);

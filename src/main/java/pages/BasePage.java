@@ -116,10 +116,13 @@ public class BasePage {
     }
 
     public void closeTab() {
+        takeScreenshot(driver(), "BeforeClose");
         //reporter.info("Closing the browser");
+        LOGGER.info("Close tab");
         driver().close();
         Object[] handles = driver().getWindowHandles().toArray();
         driver().switchTo().window( String.valueOf(handles[0]) );
+        takeScreenshot(driver(), "AfterClose");
     }
 
     public String getTitle() {
@@ -333,7 +336,7 @@ public class BasePage {
 
     public List<WebElement> findElements(By element, int... timeout) {
         int timeoutForFindElement = timeout.length < 1 ? MAIN_TIMEOUT : timeout[0];
-        //waitForPageToLoad();
+        waitForPageToLoad();
         try {
             //synchronize();
 //            (new WebDriverWait(driver(), timeoutForFindElement))
@@ -672,8 +675,12 @@ public class BasePage {
      * go on previous page
      */
     public void goBack(){
+        sleepFor(1000);
+        LOGGER.info("Go BACK");
+        takeScreenshot(driver(), "BeforeBack");
         driver().navigate().back();
         waitForPageToLoad();
+        takeScreenshot(driver(), "AfterBack");
     }
 
     /**
@@ -790,7 +797,7 @@ public class BasePage {
      * @return
      */
     public static String takeScreenshot(WebDriver driver, String name){
-        String filename = name + "screen.png";
+        String filename = SessionManager.getSessionID() + name + "screen.png";
         try {
             File file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             SessionManager.addScreenshotNameToSession(filename);
