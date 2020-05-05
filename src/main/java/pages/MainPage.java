@@ -22,7 +22,7 @@ public class MainPage extends BasePage {
         pageURL = "";
     }
 
-    By connectionsLink = By.xpath("//span/span[.='Connections'] | //span[@id='mynetwork-tab-icon']");
+    By connectionsLink = By.xpath("//span/span[.='Connections'] | //span[@id='mynetwork-tab-icon'] | //a[@data-test-global-nav-link='mynetwork']");
 
     By connectionsSecondLink = By.xpath("(//div[contains(.,'Connections') and @class='mn-community-summary__entity-info'])[1]");
 
