@@ -21,6 +21,7 @@ public class LoginPage extends BasePage {
     private By passwordLocator = By.xpath("//input[@name='session_password']");
     private By loginButtonLocator = By.xpath(("//button[contains(.,'Sign in')]"));
 
+    By signInLink = By.xpath("//a[.='Sign in'] )");
 
     /**
      * enter username to login form
@@ -59,5 +60,9 @@ public class LoginPage extends BasePage {
     public boolean loginPageWasOpened() {
         waitForPageToLoad();
         return findElements(usernameLocator).size() > 0;
+    }
+
+    public void clickSubmit() {
+        findElement(signInLink);
     }
 }

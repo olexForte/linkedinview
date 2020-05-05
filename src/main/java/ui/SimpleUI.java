@@ -21,7 +21,7 @@ import java.util.Timer;
  */
 public class SimpleUI implements ActionListener {
 
-    String VERSION_LABEL = "(2020/04/21)";
+    String VERSION_LABEL = "(2020/05/05)";
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SimpleUI.class);
 

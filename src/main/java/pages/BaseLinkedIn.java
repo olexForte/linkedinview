@@ -65,13 +65,15 @@ public class BaseLinkedIn implements Runnable{
             LoginPage loginPage = new LoginPage();
 
             loginPage.open();
-            if(loginPage.loginPageWasOpened()) {
+            if(!loginPage.loginPageWasOpened())
+                loginPage.clickSubmit();
+
                 loginPage
                         .enterUsername(login)
                         .enterPassword(password)
                         .submitForm()
                         .waitForPageToLoadAndSpinnerToDisappear();
-            }
+
 
             MainPage mainPage = new MainPage();
             mainPage.openUserConnections();
