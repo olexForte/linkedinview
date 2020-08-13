@@ -13,13 +13,6 @@ public class App {
 
 //        BaseLinkedIn linkedIn = new BaseLinkedIn();
 
-//        String login = "olex.dyachuk@gmail.com";
-//        String password = "WtkmLink1!";
-
-
-        String login = "bohdan.hrynchuk@fortegrp.com";
-        String password = "123QWEasd";
-
         String title = "VP OR CTO OR president OR Director OR head OR owner" ; //"\"VP\" OR \"President\" OR \"Director\" OR \"CTO\" OR \"Owner\" OR \"Founder\"";
         //String title = "\"VP\" OR \"Vice President\" OR \"Director\" OR \"CTO\" OR \"Chief Technology officer\" OR \"President\" OR \"Owner\" OR \"Founder\"";
         String listOfCompanies = "Fitch Group, Inc.;" +

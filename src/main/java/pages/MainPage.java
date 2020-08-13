@@ -22,7 +22,7 @@ public class MainPage extends BasePage {
         pageURL = "";
     }
 
-    By connectionsLink = By.xpath("//span/span[.='Connections'] | //span[@id='mynetwork-tab-icon'] | //a[@data-test-global-nav-link='mynetwork']");
+    By connectionsLink = By.xpath("//a[@data-test-global-nav-link='mynetwork']");
 
     By connectionsSecondLink = By.xpath("(//div[contains(.,'Connections') and @class='mn-community-summary__entity-info'])[1]");
 
@@ -33,7 +33,7 @@ public class MainPage extends BasePage {
     By filterFieldTitleInput = By.xpath("//input[@id='search-advanced-title']");
     By filterFieldCompanyInput = By.xpath(("(//input[@aria-label='Add a current company'])[1]"));
 
-    By filterFieldContactInput = By.xpath(("//input[@type='search']"));
+    By filterFieldContactInput = By.xpath(("//input[@id='mn-connections-search-input']"));
 
     By firstConnectionsCheckbox = By.xpath("(//div[@id='connections-facet-values'])[1]//label[contains(.,'1st')]/preceding::input[1]");
     By secondConnectionsCheckbox = By.xpath("(//div[@id='connections-facet-values'])[1]//label[contains(.,'2nd')]/preceding::input[1]");
