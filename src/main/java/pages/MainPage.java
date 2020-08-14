@@ -45,7 +45,7 @@ public class MainPage extends BasePage {
 
     By nextPageLink = By.xpath("//button[@aria-label='Next']");
 
-    By resultsOfSearch = By.xpath(("//ul[contains(@class,'search-results__list')]/li | //div[@class='mn-connection-card ember-view']"));
+    By resultsOfSearch = By.xpath(("//ul[contains(@class,'search-results__list')]/li | //div[@class='mn-connection-card ember-view'] | //li[@class='mn-connection-card artdeco-list ember-view'] "));
     //String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li)";
 
     String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li//span[@class='name actor-name'] | //span[contains(@class,'mn-connection-card__name')])";
