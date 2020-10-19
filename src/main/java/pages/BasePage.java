@@ -292,7 +292,12 @@ public class BasePage {
             return driver().findElement(element);
         } catch (Exception e) {
             LOGGER.debug("findElement FAILED: " + element.toString());
+        }
+
+        try{
             reactivateBrowser();
+        } catch (Exception e){
+            LOGGER.debug("reactivation FAILED: " + element.toString());
         }
 
         try {

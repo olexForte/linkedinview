@@ -15,6 +15,8 @@ public class MainPage extends BasePage {
     private static final Logger LOGGER = LoggerFactory.getLogger(MainPage.class);
     public static final String TITLE_SEPARATOR = " // ";
 
+    static String connectionsURL = "https://www.linkedin.com/mynetwork/invite-connect/connections/";
+
     private static MainPage instance;
     public static MainPage Instance = (instance != null) ? instance : new MainPage();
 
@@ -40,7 +42,7 @@ public class MainPage extends BasePage {
 
     By connectionsOfField = By.xpath(("//legend[contains(.,'Connections of')]/following::ol[1]//input[1]"));
 
-    By applyFilters = By.xpath(("//button[@data-control-name='all_filters_apply']"));
+    By applyFilters = By.xpath("(//button[contains(.,'Apply')])[1]"); //button[@id='ember764'] | //button[@data-control-name='all_filters_apply']");
 
 
     By nextPageLink = By.xpath("//button[@aria-label='Next']");
@@ -68,9 +70,16 @@ public class MainPage extends BasePage {
 
     public MainPage openUserConnections() {
         LOGGER.info("User Connections opening");
-        findElement(connectionsLink).click();
-        waitForElement(connectionsSecondLink);
-        findElement(connectionsSecondLink).click();
+//        waitForElement(connectionsLink);
+//        try {
+//            findElement(connectionsLink).click();
+//        } catch (Exception e){
+//            LOGGER.warn("Trying JS");
+//            clickOnElementUsingJS(findElement(connectionsLink));
+//        }
+//        waitForElement(connectionsSecondLink);
+//        findElement(connectionsSecondLink).click();
+        driver().get(connectionsURL);
         LOGGER.info("User Connections opened");
         return this;
     }
