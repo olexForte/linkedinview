@@ -45,7 +45,7 @@ public class MainPage extends BasePage {
     By applyFilters = By.xpath("(//button[contains(.,'Apply')])[1] | (//button[contains(.,'Show results')])[1]"); //button[@id='ember764'] | //button[@data-control-name='all_filters_apply']");
 
 
-    By nextPageLink = By.xpath("//button[@aria-label='Next']");
+    By nextPageLink = By.xpath("//button[@aria-label='Next'] | //span[@class='artdeco-button__text'][.='Next']");
 
     By resultsOfSearch = By.xpath(("//ul[contains(@class,'search-results__list')]/li | //div[@class='mn-connection-card ember-view'] | //li[@class='mn-connection-card artdeco-list ember-view'] | //div[@class='entity-result__item']"));
     //String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li)";
