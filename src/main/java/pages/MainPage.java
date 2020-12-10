@@ -30,19 +30,19 @@ public class MainPage extends BasePage {
 
     By searchWithFilters = By.xpath(("//a[@data-control-name='search_with_filters']"));
 
-    By allFiltersLink = By.xpath(("//span[contains(.,'All Filters')]"));
+    By allFiltersLink = By.xpath(("//span[contains(.,'All Filters')] | //button[@aria-label='All filters']"));
 
-    By filterFieldTitleInput = By.xpath("//input[@id='search-advanced-title']");
-    By filterFieldCompanyInput = By.xpath(("(//input[@aria-label='Add a current company'])[1]"));
+    By filterFieldTitleInput = By.xpath("//input[@id='search-advanced-title'] | //label[contains(.,'Title')]/input[@class='mt1']");
+    By filterFieldCompanyInput = By.xpath(("(//input[@aria-label='Add a current company'])[1] | //label[contains(.,'Company')]/input[@class='mt1']"));
 
     By filterFieldContactInput = By.xpath(("//input[@id='mn-connections-search-input']"));
 
-    By firstConnectionsCheckbox = By.xpath("(//div[@id='connections-facet-values'])[1]//label[contains(.,'1st')]/preceding::input[1]");
-    By secondConnectionsCheckbox = By.xpath("(//div[@id='connections-facet-values'])[1]//label[contains(.,'2nd')]/preceding::input[1]");
+    By firstConnectionsCheckbox = By.xpath("(//div[@id='connections-facet-values'])[1]//label[contains(.,'1st')]/preceding::input[1] | //input[@id='network-F']");
+    By secondConnectionsCheckbox = By.xpath("(//div[@id='connections-facet-values'])[1]//label[contains(.,'2nd')]/preceding::input[1] | //input[@id='network-S']");
 
     By connectionsOfField = By.xpath(("//legend[contains(.,'Connections of')]/following::ol[1]//input[1]"));
 
-    By applyFilters = By.xpath("(//button[contains(.,'Apply')])[1]"); //button[@id='ember764'] | //button[@data-control-name='all_filters_apply']");
+    By applyFilters = By.xpath("(//button[contains(.,'Apply')])[1] | (//button[contains(.,'Show results')])[1]"); //button[@id='ember764'] | //button[@data-control-name='all_filters_apply']");
 
 
     By nextPageLink = By.xpath("//button[@aria-label='Next']");
