@@ -47,10 +47,10 @@ public class MainPage extends BasePage {
 
     By nextPageLink = By.xpath("//button[@aria-label='Next']");
 
-    By resultsOfSearch = By.xpath(("//ul[contains(@class,'search-results__list')]/li | //div[@class='mn-connection-card ember-view'] | //li[@class='mn-connection-card artdeco-list ember-view'] "));
+    By resultsOfSearch = By.xpath(("//ul[contains(@class,'search-results__list')]/li | //div[@class='mn-connection-card ember-view'] | //li[@class='mn-connection-card artdeco-list ember-view'] | //div[@class='entity-result__item']"));
     //String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li)";
 
-    String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li//span[@class='name actor-name'] | //span[contains(@class,'mn-connection-card__name')])";
+    String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li//span[@class='name actor-name'] | //span[contains(@class,'mn-connection-card__name')] | //a[@data-control-name='entity_result'])";
 
     By resultsInfo = By.xpath("//div[contains(@class,'search-result__info')]");
 
@@ -66,7 +66,7 @@ public class MainPage extends BasePage {
 
     By closeContactDialog = By.xpath(("//button[@aria-label='Dismiss']"));
 
-    By noResultsFoundMessage = By.xpath(("//h1[.='No results found.']"));
+    By noResultsFoundMessage = By.xpath(("//h1[contains(.,'No results found')]"));
 
     public MainPage openUserConnections() {
         LOGGER.info("User Connections opening");
