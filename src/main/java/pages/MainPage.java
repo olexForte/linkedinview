@@ -51,7 +51,7 @@ public class MainPage extends BasePage {
     //String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li)";
 
     String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li//span[@class='name actor-name'] | //span[contains(@class,'mn-connection-card__name')] | //a[@data-control-name='entity_result'])";
-    String resultOSearchItemAlt = "//div[@class='mn-connection-card__details']";
+    String resultOSearchItemAlt = "//div[@class='linked-area cursor-pointer']";
 
     By resultsInfo = By.xpath("//div[contains(@class,'search-result__info')]");
 
