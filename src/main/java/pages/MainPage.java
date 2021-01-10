@@ -51,6 +51,7 @@ public class MainPage extends BasePage {
     //String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li)";
 
     String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li//span[@class='name actor-name'] | //span[contains(@class,'mn-connection-card__name')] | //a[@data-control-name='entity_result'])";
+    String resultOSearchItemAlt = "//div[@class='mn-connection-card__details']";
 
     By resultsInfo = By.xpath("//div[contains(@class,'search-result__info')]");
 
@@ -277,6 +278,10 @@ public class MainPage extends BasePage {
                 name = "";
             };
         }
+
+        //last attempt
+        if (name.equals(""))
+            name = findElement(By.xpath(resultOSearchItemAlt)).getText();
 
         return name; //findElements(resultsOfSearch).get(i).findElement(nameFromResult).getText();
     }
