@@ -37,8 +37,11 @@ public class MainPage extends BasePage {
 
     By filterFieldContactInput = By.xpath(("//input[@id='mn-connections-search-input']"));
 
-    By firstConnectionsCheckbox = By.xpath("(//div[@id='connections-facet-values'])[1]//label[contains(.,'1st')]/preceding::input[1] | //input[@id='network-F']");
-    By secondConnectionsCheckbox = By.xpath("(//div[@id='connections-facet-values'])[1]//label[contains(.,'2nd')]/preceding::input[1] | //input[@id='network-S']");
+    By firstConnectionsCheckbox = By.xpath("//input[@id='advanced-filter-network-F']");
+    By secondConnectionsCheckbox = By.xpath("//input[@id='advanced-filter-network-S']");
+
+    By firstConnectionsCheckboxForClick = By.xpath("//input[@id='advanced-filter-network-F']/following::label[1]");
+    By secondConnectionsCheckboxForClick = By.xpath("//input[@id='advanced-filter-network-S']/following::label[1]");
 
     By connectionsOfField = By.xpath(("//legend[contains(.,'Connections of')]/following::ol[1]//input[1]"));
 
@@ -163,17 +166,17 @@ public class MainPage extends BasePage {
 
     public MainPage setSearchForFirstLevel() {
         if (!findElement(firstConnectionsCheckbox).isSelected())
-            clickOnElementUsingJS(findElement(firstConnectionsCheckbox));
+            findElement(firstConnectionsCheckboxForClick).click();
         if (findElement(secondConnectionsCheckbox).isSelected())
-            clickOnElementUsingJS(findElement(secondConnectionsCheckbox));
+            findElement(secondConnectionsCheckboxForClick).click();
         return this;
     }
 
     public MainPage setSearchForSecondLevel() {
         if (findElement(firstConnectionsCheckbox).isSelected())
-            clickOnElementUsingJS(findElement(firstConnectionsCheckbox));
+            findElement(firstConnectionsCheckboxForClick).click();
         if (!findElement(secondConnectionsCheckbox).isSelected())
-            clickOnElementUsingJS(findElement(secondConnectionsCheckbox));
+            findElement(secondConnectionsCheckboxForClick).click();
         return this;
     }
 
