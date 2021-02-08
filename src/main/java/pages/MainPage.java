@@ -53,7 +53,7 @@ public class MainPage extends BasePage {
     By resultsOfSearch = By.xpath(("//ul[contains(@class,'search-results__list')]/li | //div[@class='mn-connection-card ember-view'] | //li[@class='mn-connection-card artdeco-list ember-view'] | //div[@class='entity-result__item']"));
     //String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li)";
 
-    String resultOSearchItem = "//span[@class='entity-result__title']//a[1] | //span[contains(@class,'mn-connection-card__name')] | //span[@class='entity-result__title']//a[@data-control-name='entity_result']";
+    String resultOSearchItem = "(//span[@class='entity-result__title']//a[1] | //span[contains(@class,'mn-connection-card__name')] | //span[@class='entity-result__title']//a[@data-control-name='entity_result'])";
     String resultOSearchItemAlt = "//div[@class='linked-area cursor-pointer']";
 
     By resultsInfo = By.xpath("//div[contains(@class,'search-result__info')]");
