@@ -13,6 +13,7 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.DataProvider;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -53,11 +54,6 @@ public class DriverProvider {
         LOGGER.info("Creation of WebDriver started ...");
 
         try {
-            System.setProperty("webdriver.chrome.driver", CHROME_PATH);
-
-            //ChromeOptions chromeOptions = new ChromeOptions();
-            //chromeOptions.addArguments("--kiosk");
-            //chromeOptions.addArguments("--start-maximized");
 
             HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
             chromePrefs.put("profile.default_content_settings.popups", 0);
@@ -88,10 +84,15 @@ public class DriverProvider {
              if(runHeadless)
                 options.addArguments("--headless");
 
-            if (PropertiesList.getConfigProperty("ChromeDriverVersion") == null)
-                WebDriverManager.chromedriver().setup();
-            else
-                WebDriverManager.chromedriver().version(PropertiesList.getConfigProperty("ChromeDriverVersion")).setup();
+
+            synchronized (DataProvider.class) {
+                if (PropertiesList.getConfigProperty("ChromeDriverVersion") != null)
+                    WebDriverManager.chromedriver().driverVersion(PropertiesList.getConfigProperty("ChromeDriverVersion")).setup();
+                else if (PropertiesList.getConfigProperty("ChromeVersion") != null)
+                    WebDriverManager.chromedriver().browserVersion(PropertiesList.getConfigProperty("ChromeVersion")).setup();
+                else
+                    WebDriverManager.chromedriver().setup();
+            }
 
             return new ChromeDriver(options);
         } catch (Exception e){

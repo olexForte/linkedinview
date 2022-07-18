@@ -50,7 +50,7 @@ public class MainPage extends BasePage {
 
     By nextPageLink = By.xpath("//button[@aria-label='Next'] | //span[@class='artdeco-button__text'][.='Next']");
 
-    By resultsOfSearch = By.xpath(("//ul[contains(@class,'search-results__list')]/li | //div[@class='mn-connection-card ember-view'] | //li[@class='mn-connection-card artdeco-list ember-view'] | //div[@class='entity-result__item']"));
+    By resultsOfSearch = By.xpath(("//ul[contains(@class,'search-results__list')]/li | //div[contains(@class,'mn-connection-card')] | //li[contains(@class,'mn-connection-card artdeco-list')] | //div[@class='entity-result__item']"));
     //String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li)";
 
     String resultOSearchItem = "(//span[@class='entity-result__title']//a[1] | //span[contains(@class,'mn-connection-card__name')] | //span[@class='entity-result__title']//a[@data-control-name='entity_result'])";
@@ -62,7 +62,7 @@ public class MainPage extends BasePage {
     By positionFromResult = By.xpath("./p[1]/span[1]");
 
     By allConnectionsLink = By.xpath("//a[@data-control-name='topcard_view_all_connections']");
-    By contactsLink = By.xpath(("//a[@data-control-name='contact_see_more']"));
+    By contactsLink = By.xpath(("//a[@data-control-name='contact_see_more'] | //a[@id='top-card-text-details-contact-info']"));
 
     By mailFromContactDialog = By.xpath("//a[contains(@href, 'mailto:')]");
     By phoneFromContactDialog = By.xpath("//li[@class='pv-contact-info__ci-container']/span[1]");
@@ -128,7 +128,7 @@ public class MainPage extends BasePage {
             position = findElement(lastPositionTitle).getText();
             company = findElement(lastPositionCompany).getText();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.warn("Error processing Last position title", e);
         }
 
         LOGGER.info("Finished getting title and company: "+ position + TITLE_SEPARATOR + company);
