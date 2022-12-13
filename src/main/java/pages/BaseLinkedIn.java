@@ -12,6 +12,7 @@ import utils.Tools;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import static pages.BasePage.driver;
 
@@ -63,19 +64,31 @@ public class BaseLinkedIn implements Runnable{
             driver.set(driverLocal);
 
             LoginPage loginPage = new LoginPage();
-
             loginPage.open();
-            if(!loginPage.loginPageWasOpened())
-                loginPage.clickSubmit();
 
+//            if(!loginPage.loginPageWasOpened())
+//                loginPage.clickSubmit();
+//
                 loginPage
-                        .enterUsername(login)
-                        .enterPassword(password)
-                        .submitForm()
-                        .waitForPageToLoadAndSpinnerToDisappear();
+                        .enterUsername(login);
+//                        .enterPassword(password)
+//                        .submitForm()
+//                        .waitForPageToLoadAndSpinnerToDisappear();
 
 
             MainPage mainPage = new MainPage();
+
+            int DEFAULT_TIMEOUT = 300;
+            LocalDateTime expectedEnd = LocalDateTime.now().plusSeconds(DEFAULT_TIMEOUT);
+            while(LocalDateTime.now().isBefore(expectedEnd)) {
+                Thread.sleep(5000);
+                try {
+                    if(mainPage.isOpen()) break;
+                } catch (Exception e){
+                    //expected
+                }
+            }
+
             mainPage.openUserConnections();
 
             //search contact OR by title1
@@ -120,7 +133,7 @@ public class BaseLinkedIn implements Runnable{
 
 //                    try {
 //
-                        String parentTitleAndCompany = mainPage.getTitleAndCompanyFromContactPage();
+                            String parentTitleAndCompany = mainPage.getTitleAndCompanyFromContactPage();
                         String parentTitle = parentTitleAndCompany.split(mainPage.TITLE_SEPARATOR)[0].replace("Title", "");
                         String parentCompany = parentTitleAndCompany.split(mainPage.TITLE_SEPARATOR)[1].replace("Company Name", "");
 

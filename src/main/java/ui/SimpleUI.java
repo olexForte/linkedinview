@@ -21,7 +21,7 @@ import java.util.Timer;
  */
 public class SimpleUI implements ActionListener {
 
-    String VERSION_LABEL = "(2022/7/18)";
+    String VERSION_LABEL = "(2022/12/13)";
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SimpleUI.class);
 
@@ -143,8 +143,8 @@ public class SimpleUI implements ActionListener {
 
         loginPanel.add(new JLabel("Login:    "));
         loginPanel.add(login);
-        loginPanel.add(new JLabel("Password: "));
-        loginPanel.add(password);
+//        loginPanel.add(new JLabel("Password: "));
+//        loginPanel.add(password);
         loginPanel.setBorder(BorderFactory.createTitledBorder("Login"));
 
         searchCriteria1Panel.setLayout(new GridLayout(2,2));

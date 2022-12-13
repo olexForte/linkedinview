@@ -30,6 +30,8 @@ public class MainPage extends BasePage {
 
     By searchWithFilters = By.xpath(("//a[@data-control-name='search_with_filters']"));
 
+    By navigationPanel = By.xpath("//nav[@class='global-nav__nav']");
+
     By allFiltersLink = By.xpath(("//span[contains(.,'All Filters')] | //button[@aria-label='All filters']"));
 
     By filterFieldTitleInput = By.xpath("//input[@id='search-advanced-title'] | //label[contains(.,'Title')]/input[@class='mt1']");
@@ -388,5 +390,9 @@ public class MainPage extends BasePage {
         }catch (Exception e) {
             return "No open contact info";
         }
+    }
+
+    public boolean isOpen() {
+        return (isElementPresent(navigationPanel));
     }
 }
