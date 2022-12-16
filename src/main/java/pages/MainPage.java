@@ -32,10 +32,10 @@ public class MainPage extends BasePage {
 
     By navigationPanel = By.xpath("//nav[@class='global-nav__nav']");
 
-    By allFiltersLink = By.xpath(("//span[contains(.,'All Filters')] | //button[@aria-label='All filters']"));
+    By allFiltersLink = By.xpath(("//span[contains(.,'All Filters')] | //button[@aria-label='All filters'] | //button[contains(.,'All filters')]"));
 
-    By filterFieldTitleInput = By.xpath("//input[@id='search-advanced-title'] | //label[contains(.,'Title')]/input[@class='mt1']");
-    By filterFieldCompanyInput = By.xpath(("(//input[@aria-label='Add a current company'])[1] | //label[contains(.,'Company')]/input[@class='mt1']"));
+    By filterFieldTitleInput = By.xpath("//label[contains(.,'Title')]/input[@class='mt1']");
+    By filterFieldCompanyInput = By.xpath(("//label[contains(.,'Company')]/input[@class='mt1']"));
 
     By filterFieldContactInput = By.xpath(("//input[@id='mn-connections-search-input']"));
 
@@ -55,7 +55,7 @@ public class MainPage extends BasePage {
     By resultsOfSearch = By.xpath(("//ul[contains(@class,'search-results__list')]/li | //div[contains(@class,'mn-connection-card')] | //li[contains(@class,'mn-connection-card artdeco-list')] | //div[@class='entity-result__item']"));
     //String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li)";
 
-    String resultOSearchItem = "(//span[@class='entity-result__title']//a[1] | //span[contains(@class,'mn-connection-card__name')] | //span[@class='entity-result__title']//a[@data-control-name='entity_result'])";
+    String resultOSearchItem = "(//div[@class='entity-result__item']//a/div)";
     String resultOSearchItemAlt = "//div[@class='linked-area cursor-pointer']";
 
     By resultsInfo = By.xpath("//div[contains(@class,'search-result__info')]");
@@ -63,7 +63,7 @@ public class MainPage extends BasePage {
     By nameFromResult = By.xpath(".//span[@class='name actor-name'] ");
     By positionFromResult = By.xpath("./p[1]/span[1]");
 
-    By allConnectionsLink = By.xpath("//a[@data-control-name='topcard_view_all_connections']");
+    By allConnectionsLink = By.xpath("//a[@data-control-name='topcard_view_all_connections'] | //a[contains(@href,'/search/results/people/?connection')]");
     By contactsLink = By.xpath(("//a[@data-control-name='contact_see_more'] | //a[@id='top-card-text-details-contact-info']"));
 
     By mailFromContactDialog = By.xpath("//a[contains(@href, 'mailto:')]");
@@ -198,6 +198,7 @@ public class MainPage extends BasePage {
     public MainPage applyFilter() {
         findElement(applyFilters).click();
         waitForPageToLoad();
+        sleepFor(3000);
         return this;
     }
 
@@ -365,6 +366,17 @@ public class MainPage extends BasePage {
 
 
     public String getCurrentContactPhone() {
+        String result = "No phone specified";
+        try {
+            result = findElement(phoneFromContactDialog).getText();
+        }catch (Exception e){
+            LOGGER.info("No phone specified");
+        }
+        //findElement(closeContactDialog).click();
+        return result;
+    }
+
+    public String getCurrentAllInfo() {
         String result = "No phone specified";
         try {
             result = findElement(phoneFromContactDialog).getText();

@@ -141,6 +141,7 @@ public class BaseLinkedIn implements Runnable{
                         mainPage.openContactsPanel();
                         String parentEmail = mainPage.getCurrentContactEmail();
                         String parentPhone = mainPage.getCurrentContactPhone();
+                        String parentAll = mainPage.getCurrentContactDetails();
 
                         mainPage.goBack();
 
@@ -159,7 +160,7 @@ public class BaseLinkedIn implements Runnable{
                                 LOGGER.warn("No results found");
                                 //mainPage.goBack();
                                 mainPage.closeTab();
-                                FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, "No results found", "", "", "");
+                                FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, parentAll,"No results found", "", "", "");
 
                             } else { // some secondary results were found
                                 LOGGER.info("Secondary results were found");
@@ -196,7 +197,7 @@ public class BaseLinkedIn implements Runnable{
                                             mainPage.goBack(); //go back to secondary search
                                             mainPage.waitForPageToLoad();
 
-                                            FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, name, title, company, allContactsInfo);
+                                            FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, parentAll, name, title, company, allContactsInfo);
                                             FileIO.appendLineToFile(sessionFile, name);
                                         };
                                     };
@@ -216,7 +217,7 @@ public class BaseLinkedIn implements Runnable{
                             //mainPage.goBack();
                             LOGGER.info("No opened connections");
                             mainPage.closeTab();
-                            FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, "No open connections", "", "", "");
+                            FileIO.appendToResults(reportFile, parentName, parentTitle, parentCompany, parentEmail, parentPhone, parentAll, "No open connections", "", "", "");
 //                            FileIO.appendToFile(reportFile, "<tr>");
 //                            FileIO.appendToFile(reportFile, "<td> " + parentName + "</td>");
 //                            FileIO.appendToFile(reportFile, "<td> " + parentTitle + " </td> ");

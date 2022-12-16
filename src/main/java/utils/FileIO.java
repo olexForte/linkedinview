@@ -251,6 +251,7 @@ public class FileIO {
             String parentCompany,
             String parentEmail,
             String parentPhone,
+            String parentInfo,
             String name,
             String title,
             String company,
@@ -264,6 +265,7 @@ public class FileIO {
         FileIO.appendToFile(reportFile, "<td> " + parentCompany + " </td> ");
         FileIO.appendToFile(reportFile, "<td> " + parentEmail + " </td>");
         FileIO.appendToFile(reportFile, "<td> " + parentPhone + " </td>");
+        FileIO.appendToFile(reportFile, "<td> " + parentInfo + " </td>");
         FileIO.appendToFile(reportFile, "<td> " + name + "</td>");
         FileIO.appendToFile(reportFile, "<td> " + title + "</td>");
         FileIO.appendToFile(reportFile, "<td> " + company + "</td>");
@@ -275,6 +277,7 @@ public class FileIO {
         FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(parentCompany) + " , ");
         FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(parentEmail) + " ,");
         FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(parentPhone) + " ,");
+        FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(parentInfo) + " ,");
         FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(name) + ",");
         FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(title) + ",");
         FileIO.appendToFile(reportFileBase, " " + Tools.cleanForCell(company) + ",");
@@ -288,7 +291,7 @@ public class FileIO {
 
     public static void openReportFile(String reportFile) throws IOException {
         FileIO.appendToFile(reportFile+ ".html", "<table>");
-        FileIO.appendToResults(reportFile,"1st Connection Name","1st Connection Title", "1st Connection Company", "1st Connection Email","1st Connection Phone","2nd Connection Name","2nd Connection Title","2nd Connection Company","2nd Connection Links");
+        FileIO.appendToResults(reportFile,"1st Connection Name","1st Connection Title", "1st Connection Company", "1st Connection Email","1st Connection Phone", "1st Connection Info","2nd Connection Name","2nd Connection Title","2nd Connection Company","2nd Connection Links");
     }
 
     public static void copyFile(String fileName1, String fileName2) throws IOException {
