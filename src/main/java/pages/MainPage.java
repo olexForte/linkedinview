@@ -28,7 +28,7 @@ public class MainPage extends BasePage {
 
     By connectionsSecondLink = By.xpath("(//div[contains(.,'Connections') and @class='mn-community-summary__entity-info'])[1]");
 
-    By searchWithFilters = By.xpath(("//a[@data-control-name='search_with_filters']"));
+    By searchWithFilters = By.xpath(("//a[@data-control-name='search_with_filters'] | //a[text()='Search with filters']"));
 
     By navigationPanel = By.xpath("//nav[@class='global-nav__nav']");
 
@@ -55,7 +55,7 @@ public class MainPage extends BasePage {
     By resultsOfSearch = By.xpath(("//ul[contains(@class,'search-results__list')]/li | //div[contains(@class,'mn-connection-card')] | //li[contains(@class,'mn-connection-card artdeco-list')] | //div[@class='entity-result__item']"));
     //String resultOSearchItem = "(//ul[contains(@class,'search-results__list')]/li)";
 
-    String resultOSearchItem = "(//div[@class='entity-result__item']//a/div)";
+    String resultOSearchItem = "(//div[@class='entity-result__item']//span[contains(@class,'entity-result__title-text')]/a | //div[@class='mn-connection-card__details']/a/span[2])";
     String resultOSearchItemAlt = "//div[@class='linked-area cursor-pointer']";
 
     By resultsInfo = By.xpath("//div[contains(@class,'search-result__info')]");
@@ -114,14 +114,15 @@ public class MainPage extends BasePage {
         By lastPositionTitle;
         By lastPositionCompany;
 
-        By extendedFormatOfRecord = By.xpath("(//h2[contains(.,'Experience')]/parent::header[1]/following::ul[1]//li[1])[1]//ul['pv-entity__position-group']");
+        //By extendedFormatOfRecord = By.xpath("(//h2[contains(.,'Experience')]/parent::header[1]/following::ul[1]//li[1])[1]//ul['pv-entity__position-group']");
 
-        lastPositionTitle = By.xpath("(//h2[contains(.,'Experience')]/parent::header[1]/following::ul[1]//li[1]//ul['pv-entity__position-group']//h3[1])[1]");
-        lastPositionCompany = By.xpath("(//h2[contains(.,'Experience')]/parent::header[1]/following::ul[1]//li[1]//h3)[1]");
-        // Experience 1st Title
-        if (findElements(extendedFormatOfRecord).size() == 0) {
-            lastPositionTitle = By.xpath("(//h2[contains(.,'Experience')]/parent::header[1]/following::ul[1]//h3)[1]");
-            lastPositionCompany = By.xpath("(//h2[contains(.,'Experience')]/parent::header[1]/following::ul[1]//h3/following::p[2])[1]");
+        //lastPositionTitle = By.xpath("(//section[.//h2[contains(.,'Experience')]][1]//ul[1]/li[1]//a[1]/div[1])[3]");
+        lastPositionTitle = By.xpath("((//section[.//h2[contains(.,'Experience')]][1]//ul[1]/li[1])[1]//span[contains(@class, 'mr1')])[2]");
+        lastPositionCompany = By.xpath("((//section[.//h2[contains(.,'Experience')]][1]//ul[1]/li[1])[1]//span[contains(@class, 'mr1')])[1]");
+//        // Experience 1st Title
+        if (findElements(lastPositionTitle).size() == 0) {
+            lastPositionTitle = By.xpath("((//section[.//h2[contains(.,'Experience')]][1]//ul[1]/li[1])[1]//span[contains(@class, 'mr1')])[1]");
+            lastPositionCompany = By.xpath("((//section[.//h2[contains(.,'Experience')]][1]//ul[1]/li[1])[1]//span[contains(@class, 'mr1')]/following::span)[1]");
         }
 
         String position = "---";
@@ -397,7 +398,8 @@ public class MainPage extends BasePage {
 
     public String getCurrentContactDetails() {
         try {
-            waitForElement(By.xpath("//h2[.='Contact Info']/following::div[1]"));
+            sleepFor(3000);
+            //waitForElement(By.xpath("//h2[.='Contact Info']/following::div[1]"));
             return findElement(By.xpath(("//h2[contains(.,'Contact Info')]/following::div[1]"))).getText().replaceAll("\n", " -- ");
         }catch (Exception e) {
             return "No open contact info";

@@ -28,9 +28,9 @@ public class BasePage {
     private static final Logger LOGGER = LoggerFactory.getLogger(BasePage.class);
     //static public ReporterManager reporter = ReporterManager.Instance;
     
-    private static int DEFAULT_TIMEOUT          = 15;
-    private static int DEFAULT_SHORT_TIMEOUT    = 3000;
-    private static int DEFAULT_STATIC_TIMEOUT   = 3000;
+    private static int DEFAULT_TIMEOUT          = 10;
+    private static int DEFAULT_SHORT_TIMEOUT    = 1000;
+    private static int DEFAULT_STATIC_TIMEOUT   = 1000;
 
     public final static String BASE_URL = (PropertiesList.getConfigProperty("Environment"));
 
