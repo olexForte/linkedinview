@@ -1,6 +1,7 @@
 package ui;
 
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pages.BaseLinkedIn;
 import utils.DriverProvider;
@@ -21,7 +22,7 @@ import java.util.Timer;
  */
 public class SimpleUI implements ActionListener {
 
-    String VERSION_LABEL = "(2023/02/20)";
+    String VERSION_LABEL = "(2023/03/28)";
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SimpleUI.class);
 
@@ -47,7 +48,7 @@ public class SimpleUI implements ActionListener {
     String prevhtml = PropertiesList.getConfigProperty("PREV_HTML");
     String prevtxt  = PropertiesList.getConfigProperty("PREV_TXT");
 
-    JTextField login = new JTextField(loginFromConfig,30);
+    JTextField login = new JTextField(loginFromConfig,45);
     JPasswordField password = new JPasswordField(passwordFromConfig, 20);
 
     JTextField title1 = new JTextField(titleFromConfig1);
@@ -67,16 +68,46 @@ public class SimpleUI implements ActionListener {
     JPanel searchCriteria1Panel = new JPanel();
     JPanel searchCriteria2Panel = new JPanel();
     JPanel resumePanelPanel = new JPanel();
+    JPanel searchPanel = new JPanel();
     JPanel logPanel = new JPanel();
 
     JButton searchButton = new JButton("Start Search");
     JButton resumeSearchButton = new JButton("Resume Search");
 
     JTextArea textlProcessingLog = new JTextArea();
-    JScrollPane logAreaScrollPane = new JScrollPane(textlProcessingLog);;
+    JScrollPane logAreaScrollPane = new JScrollPane(textlProcessingLog);
     JLabel labelExecutionTime = new JLabel();
 
     JCheckBox headlessCheckbox  = new JCheckBox("Headless browser");
+
+    JLabel blankJLabel = new JLabel("<html>&nbsp;</html>");
+    JLabel orJLabel = new JLabel("-- OR --", 0);
+
+    //text
+    //1st circle search criteria
+    String searchCriteriaBorder_1st_Text = "1st Search criteria";
+    String searchContactTitles_1st_Text = "1st Level Contact Job Titles: ";
+    String searchContactPerson_1st_Text = "1st Level Contact (single person only): ";
+
+    //2nd circle search criteria
+    String searchCriteriaBorder_2nd_Text = "2nd Search criteria";
+    String searchCriteriaNote_2nd_Text = "<html><p>Parameters should be separated by \";\"<br>Example: QA; SDET<br>&nbsp;</p></html>";
+
+    //fonts
+    Font note_Font_11 = new Font("Lucida Grande", Font.PLAIN, 11);
+
+    private JLabel setJLabelWithFont(String content, Font font) {
+        JLabel jLabel = new JLabel(content);
+        jLabel.setHorizontalAlignment(JLabel.LEFT);
+        if (font != null) {
+            jLabel.setFont(font);
+        }
+        return jLabel;
+    }
+
+    //JLabel searchCriteriaNote_2nd = new JLabel("<html>Parameters should be separated by \";\"<br>Example: QA; SDET</html>").setFont(new Font("FontN", Font.PLAIN, 18));
+    //searchCriteriaNote_2nd.
+    //JLabel searchCriteriaNote_2nd_Formatted = searchCriteriaNote_2nd.setFont(new Font("Verdana", Font.PLAIN, 18));
 
     Timer refreshTimer = new Timer();
 
@@ -122,17 +153,18 @@ public class SimpleUI implements ActionListener {
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         companiesAreaScrollPane.setPreferredSize(new Dimension(5, 50));
 
-
-        //title1.setPreferredSize(new Dimension(1, 50));
-        //title2.setPreferredSize(new Dimension(1, 50));
-
         listOfCompanies.setLineWrap(true);
         listOfCompanies.setWrapStyleWord(true);
 
+
         searchButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-        searchButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        searchButton.setMinimumSize(new Dimension(120, 50));
+        searchButton.setMaximumSize(new Dimension(180, 75));
+
 
         resumeSearchButton.setVerticalTextPosition(AbstractButton.BOTTOM);
+        resumeSearchButton.setMinimumSize(new Dimension(120, 50));
+        resumeSearchButton.setMaximumSize(new Dimension(180, 75));
         resumeSearchButton.setHorizontalTextPosition(AbstractButton.CENTER);
 
         searchButton.setActionCommand(START_COMMAND);
@@ -141,25 +173,32 @@ public class SimpleUI implements ActionListener {
         searchButton.addActionListener(this);
         resumeSearchButton.addActionListener(this);
 
-        loginPanel.add(new JLabel("Login:    "));
+        loginPanel.add(new JLabel("Account email:       "));
         loginPanel.add(login);
 //        loginPanel.add(new JLabel("Password: "));
 //        loginPanel.add(password);
         loginPanel.setBorder(BorderFactory.createTitledBorder("Login"));
 
-        searchCriteria1Panel.setLayout(new GridLayout(2,2));
-        searchCriteria1Panel.setBorder(BorderFactory.createTitledBorder("1st Search criteria"));
-        searchCriteria1Panel.add(new JLabel("\t\t\t1st Level Contact Titles (Ex: QA or VP):"));
+        //1st circle
+        searchCriteria1Panel.setLayout(new GridLayout(4,2));
+        searchCriteria1Panel.add(new JLabel("<html>&nbsp;</html>"));
+        searchCriteria1Panel.add(new JLabel("<html>&nbsp;</html>"));
+        searchCriteria1Panel.setBorder(BorderFactory.createTitledBorder(searchCriteriaBorder_1st_Text));
+        searchCriteria1Panel.add(new JLabel(searchContactTitles_1st_Text));
         searchCriteria1Panel.add(title1);
-        searchCriteria1Panel.add(new JLabel("-- OR --"));
-        searchCriteria1Panel.add(new JLabel("\t\t\t1st Level Contact (single contact name only):"));
+        searchCriteria1Panel.add(new JLabel("<html>&nbsp;</html>"));
+        searchCriteria1Panel.add(orJLabel);
+        searchCriteria1Panel.add(new JLabel(searchContactPerson_1st_Text));
         searchCriteria1Panel.add(contacts);
 
-        searchCriteria2Panel.setLayout(new BoxLayout(searchCriteria2Panel, BoxLayout.PAGE_AXIS));
-        searchCriteria2Panel.setBorder(BorderFactory.createTitledBorder("2nd Search criteria"));
-        searchCriteria2Panel.add(new JLabel("\t\t\t2nd Level Contact Titles (Ex: QA or VP):"));
+        //2nd circle
+        searchCriteria2Panel.setLayout(new GridLayout(3,2));
+        searchCriteria2Panel.setBorder(BorderFactory.createTitledBorder(searchCriteriaBorder_2nd_Text));
+        searchCriteria2Panel.add(setJLabelWithFont(searchCriteriaNote_2nd_Text, note_Font_11));
+        searchCriteria2Panel.add(new JLabel("<html>&nbsp;</html>"));
+        searchCriteria2Panel.add(new JLabel("2nd Level Contact Titles:"));
         searchCriteria2Panel.add(title2);
-        searchCriteria2Panel.add(new JLabel("\t\t\tList of companies (separated by ; ):"));
+        searchCriteria2Panel.add(new JLabel("List of companies:"));
         searchCriteria2Panel.add(companiesAreaScrollPane);
 
         resumePanelPanel.setLayout(new BoxLayout(resumePanelPanel, BoxLayout.PAGE_AXIS));
@@ -172,18 +211,17 @@ public class SimpleUI implements ActionListener {
 
         showResumeDialog();
 
-        logPanel.setBorder(BorderFactory.createTitledBorder("Search"));
+        searchPanel.setBorder(BorderFactory.createTitledBorder("Search"));
+        searchPanel.setLayout(new GridLayout(0, 1));
+        //searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.PAGE_AXIS));
+        searchPanel.add(headlessCheckbox);
+        searchPanel.add(searchButton);
+
         logPanel.setLayout(new BoxLayout(logPanel, BoxLayout.PAGE_AXIS));
-        logPanel.add(headlessCheckbox);
-        logPanel.add(searchButton);
-
-
         logPanel.add(labelExecutionTime);
         logAreaScrollPane.setVerticalScrollBarPolicy(
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        //logAreaScrollPane.setPreferredSize(new Dimension(5, 300));
 
-        //mainPanel.add(textlProcessingLog);
         logPanel.add(logAreaScrollPane);
 
         labelExecutionTime.setVisible(false);
@@ -200,6 +238,7 @@ public class SimpleUI implements ActionListener {
         mainPanel.add(searchCriteria1Panel);
         mainPanel.add(searchCriteria2Panel);
         mainPanel.add(resumePanelPanel);
+        mainPanel.add(searchPanel);
         mainPanel.add(logPanel);
 
         //Display the window.
@@ -214,6 +253,7 @@ public class SimpleUI implements ActionListener {
             resumeSearchButton.setVisible(false);
             labelpreviousHTMLreport.setVisible(false);
             labelpreviousProcessedContacts.setVisible(false);
+            //check: this double needed?
             resumeSearchButton.setVisible(false);
         };
     }
@@ -308,9 +348,11 @@ public class SimpleUI implements ActionListener {
                 title2.getText(),
                 contacts.getText(),
                 sessionFile);
-
+        LOGGER.info("linkedIn(BaseLinkedIn) object created");
         mainThread = new Thread(linkedIn);
+        LOGGER.info("mainThread object created");
         mainThread.start();
+        LOGGER.info("mainThread started");
     }
 
     private void stopApp(){
