@@ -1,9 +1,4 @@
-import pages.BaseLinkedIn;
 import ui.SimpleUI;
-import utils.Tools;
-
-import javax.swing.*;
-import java.io.IOException;
 
 /**
  * Created by odiachuk on 8/29/19.
