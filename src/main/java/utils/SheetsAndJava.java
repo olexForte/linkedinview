@@ -17,6 +17,7 @@ import com.google.api.services.sheets.v4.model.*;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -69,22 +70,26 @@ public class SheetsAndJava {
                 System.out.printf("%s value 1 %s value 2 \n", row.get(0), row.get(1));
             }
         }
+
+        setData();
     }
 
-    public static void setData(String[] args) throws IOException, GeneralSecurityException{
+    public static void setData() throws IOException, GeneralSecurityException{
         sheetsService = getSheetsService();
-        String range = "testSh!A:B";
+        String range = "testShS!A1";
+        String range2 = "testShS!A2";
 
-        sheetValues = getData_Param_ID_Range(SPREADSHEET_ID_TEST, range);
+        List<ValueRange> data = new ArrayList<>();
+        data.add(new ValueRange().setRange(range).setValues(Arrays.asList(Arrays.asList("Test value", "1"))));
+        data.add(new ValueRange().setRange(range2).setValues(Arrays.asList(Arrays.asList("Test value", "2"))));
 
+        BatchUpdateValuesRequest batchBody = new BatchUpdateValuesRequest()
+                .setValueInputOption("USER_ENTERED")
+                .setData(data);
 
-        if(sheetValues == null || sheetValues.isEmpty()){
-            System.out.println("No data found. ");
-        } else {
-            for(List row : sheetValues){
-                System.out.printf("%s value 1 %s value 2 \n", row.get(0), row.get(1));
-            }
-        }
+        BatchUpdateValuesResponse batchResult = sheetsService.spreadsheets().values()
+                .batchUpdate(SPREADSHEET_ID, batchBody)
+                .execute();
     }
 
 

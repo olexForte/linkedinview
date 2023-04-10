@@ -1,17 +1,13 @@
 package pages;
 
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.LoggerFactory;
+import pages.login.LoginPage;
+import pages.login.LoginPage_CodeAuth;
 import utils.DriverProvider;
 import utils.FileIO;
-import utils.SessionManager;
 import utils.Tools;
 
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 
 import static pages.BasePage.driver;
@@ -75,12 +71,17 @@ public class BaseLinkedIn implements Runnable{
 //                        .submitForm()
 //                        .waitForPageToLoadAndSpinnerToDisappear();
 
+            LoginPage_CodeAuth loginPage_CodeAuth = new LoginPage_CodeAuth();
+
+            if (loginPage_CodeAuth.isDisplayed()) {
+                LOGGER.info("loginPage_CodeAuth is displayed:");
+            }
 
             MainPage mainPage = new MainPage();
 
             int DEFAULT_TIMEOUT = 300;
-            LocalDateTime expectedEnd = LocalDateTime.now().plusSeconds(DEFAULT_TIMEOUT);
-            while(LocalDateTime.now().isBefore(expectedEnd)) {
+            LocalDateTime expectedEnd_MainPage = LocalDateTime.now().plusSeconds(DEFAULT_TIMEOUT);
+            while(LocalDateTime.now().isBefore(expectedEnd_MainPage)) {
                 Thread.sleep(5000);
                 try {
                     if(mainPage.isOpen()) break;
@@ -88,6 +89,7 @@ public class BaseLinkedIn implements Runnable{
                     //expected
                 }
             }
+
 
             mainPage.openUserConnections();
 
