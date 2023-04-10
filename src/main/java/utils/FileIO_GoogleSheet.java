@@ -1,11 +1,13 @@
 package utils;
 
 import org.apache.commons.io.FileUtils;
+import utils.GoogleAPI.GoogleSpreadsheet;
 
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -24,6 +26,8 @@ public class FileIO_GoogleSheet {
     static String MAIN_RESOURCES = "src/main/resources/";
     static String CONFIG_FILE = System.getProperty("config");
     static final String EXPECTED_FILES_SUBDIRNAME = "expectedFiles";
+
+    private static String SPREADSHEET_ID_TEST = "1RMYw31bO7M6GX9GCkwHRi4_AmPZ0h_ZEyu8cQllp8f4";
 
     //folder in .target with downloaded/created during session files)
     public static String OUTPUT_DIR = "./target/" + SessionManager.getSessionID();
@@ -252,9 +256,15 @@ public class FileIO_GoogleSheet {
             String name,
             String title,
             String company,
-            String allContactsInfo) throws IOException {
+            String allContactsInfo) throws IOException, GeneralSecurityException {
 
-        String reportFile = reportFileBase + ".html";
+        GoogleSpreadsheet spreadsheet = new GoogleSpreadsheet();
+
+        int rowsNumber = spreadsheet.getData_Param_ID_Range(SPREADSHEET_ID_TEST, "testSh!A:B").size();
+
+        //int lastRow = new G;
+
+        /*String reportFile = reportFileBase + ".html";
 
         FileIO_GoogleSheet.appendToFile(reportFile, "<tr>");
         FileIO_GoogleSheet.appendToFile(reportFile, "<td> " + parentName + "</td>");
@@ -267,7 +277,7 @@ public class FileIO_GoogleSheet {
         FileIO_GoogleSheet.appendToFile(reportFile, "<td> " + title + "</td>");
         FileIO_GoogleSheet.appendToFile(reportFile, "<td> " + company + "</td>");
         FileIO_GoogleSheet.appendToFile(reportFile, "<td> " + allContactsInfo + "</td>");
-        FileIO_GoogleSheet.appendToFile(reportFile, "</tr>\n");
+        FileIO_GoogleSheet.appendToFile(reportFile, "</tr>\n"); */
 
         FileIO_GoogleSheet.appendToFile(reportFileBase, " " + Tools.cleanForCell(parentName) + ", ");
         FileIO_GoogleSheet.appendToFile(reportFileBase, " " + Tools.cleanForCell(parentTitle) + " , ");
@@ -286,10 +296,10 @@ public class FileIO_GoogleSheet {
         FileIO_GoogleSheet.appendToFile(reportFile + ".html", "</table>");
     }
 
-    public static void openReportFile(String reportFile) throws IOException {
+    /*public static void openReportFile(String reportFile) throws IOException {
         FileIO_GoogleSheet.appendToFile(reportFile+ ".html", "<table>");
         FileIO_GoogleSheet.appendToResults(reportFile,"1st Connection Name","1st Connection Title", "1st Connection Company", "1st Connection Email","1st Connection Phone", "1st Connection Info","2nd Connection Name","2nd Connection Title","2nd Connection Company","2nd Connection Links");
-    }
+    } */
 
     public static void copyFile(String fileName1, String fileName2) throws IOException {
         FileUtils.copyFile(new File(fileName1), new File(fileName2));

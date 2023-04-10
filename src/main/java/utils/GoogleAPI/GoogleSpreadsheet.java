@@ -1,4 +1,4 @@
-package utils;
+package utils.GoogleAPI;
 
 import java.io.IOException;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SheetsAndJava {
+public class GoogleSpreadsheet extends GoogleAPI {
     private static Sheets sheetsService;
     private static String SPREADSHEET_ID;
     private static List<List<Object>> sheetValues;
@@ -29,7 +29,7 @@ public class SheetsAndJava {
     private static String SPREADSHEET_ID_TEST = "1RMYw31bO7M6GX9GCkwHRi4_AmPZ0h_ZEyu8cQllp8f4";
 
     private static Credential authorize() throws IOException, GeneralSecurityException {
-        InputStream in = SheetsAndJava.class.getResourceAsStream("/credential.json");
+        InputStream in = GoogleSpreadsheet.class.getResourceAsStream("/credential.json");
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(
                 GsonFactory.getDefaultInstance(), new InputStreamReader(in)
         );
@@ -56,12 +56,10 @@ public class SheetsAndJava {
                 .build();
     }
 
-    public static void main(String[] args) throws IOException, GeneralSecurityException{
-        sheetsService = getSheetsService();
+    /*public static void main(String[] args) throws IOException, GeneralSecurityException{
         String range = "testSh!A:B";
 
         sheetValues = getData_Param_ID_Range(SPREADSHEET_ID_TEST, range);
-
 
         if(sheetValues == null || sheetValues.isEmpty()){
             System.out.println("No data found. ");
@@ -72,7 +70,7 @@ public class SheetsAndJava {
         }
 
         setData();
-    }
+    }*/
 
     public static void setData() throws IOException, GeneralSecurityException{
         sheetsService = getSheetsService();
